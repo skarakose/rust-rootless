@@ -1,0 +1,42 @@
+change-id = "ignore"
+
+[build]
+build = "x86_64-apple-darwin"
+host = ["x86_64-apple-darwin", "aarch64-apple-ios"]
+target = ["aarch64-apple-ios"]
+extended = true
+tools = ["cargo"]
+cargo-native-static = true
+
+[install]
+prefix = "/var/jb/usr"
+
+[llvm]
+download-ci-llvm = false
+targets = "AArch64;X86"
+experimental-targets = ""
+
+[rust]
+download-rustc = false
+optimize = "z"
+debug = false
+debuginfo-level = 0
+debuginfo-level-rustc = 0
+debuginfo-level-std = 0
+debuginfo-level-tools = 0
+strip = true
+debug-assertions = false
+debug-assertions-std = false
+overflow-checks = false
+overflow-checks-std = false
+llvm-tools = true
+codegen-backends = ["llvm"]
+
+[target.aarch64-apple-ios]
+cc = "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang"
+cxx = "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang++"
+ar = "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/ar"
+ranlib = "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/ranlib"
+linker = "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang"
+split-debuginfo = "off"
+rustflags = ["-Cdebuginfo=0", "-Cstrip=symbols", "-Clink-arg=-miphoneos-version-min=17.0"]
