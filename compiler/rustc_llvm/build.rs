@@ -153,6 +153,12 @@ fn main() {
     let components = output(Command::new(&llvm_config).arg("--components"));
     let mut components = components.split_whitespace().collect::<Vec<_>>();
     components.retain(|c| OPTIONAL_COMPONENTS.contains(c) || REQUIRED_COMPONENTS.contains(c));
+    // For cross iOS builds, bootstrap feeds us host llvm-config. The host component list may
+    // include X86, which then drags X86 backend objects into the iOS rustc_driver link and can
+    // fail on arm64 with ___chkstk_darwin unresolved. Keep iOS cross-linking arm64-only here.
+    if is_crossed && target.contains("apple-ios") {
+        components.retain(|c| *c != "x86");
+    }
 
     for component in REQUIRED_COMPONENTS {
         if !components.contains(component) {
