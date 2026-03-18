@@ -10,6 +10,7 @@ cargo-native-static = true
 
 [install]
 prefix = "/var/jb/usr"
+sysconfdir = "/var/jb/etc"
 
 [llvm]
 download-ci-llvm = false
